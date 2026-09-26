@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VRS Admin Panel</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <a href="index.html" class="login-brand"><span class="brand-v">V</span>ENKATESWARAA</a>
+      <div class="brand-mark">VRS</div>
+      <h1>Admin Panel</h1>
+      <p>Sign in to manage VRS records.</p>
+      <form id="loginForm">
+        <label>Username</label>
+        <input id="loginUsername" type="text" autocomplete="username" required>
+        <label>Password</label>
+        <input id="loginPassword" type="password" autocomplete="current-password" required>
+        <button type="submit" class="primary-btn">Sign In</button>
+        <p id="loginError" class="error-text"></p>
+      </form>
+      <small id="loginHint">Static admin username: <b>vrs@6849</b></small>
+      <a href="index.html" class="back-site"><i class="fa-solid fa-arrow-left"></i> Back to website</a>
+    </div>
+  </div>
+
+  <div id="adminApp" class="app hidden">
+    <aside class="sidebar">
+      <a href="index.html" class="sidebar-brand"><span><b>V</b>ENKATESWARAA</span><small>ADMIN PANEL</small></a>
+      <nav>
+        <button class="nav-item active" data-section="dashboard">▦ <span>Dashboard</span></button>
+        <button class="nav-item" data-section="orders">▤ <span>Orders</span></button>
+        <button class="nav-item" data-section="customers">♙ <span>Customers</span></button>
+        <button class="nav-item" data-section="branches">⌂ <span>Branches</span></button>
+        <button class="nav-item" data-section="locations">⌖ <span>Delivery Locations</span></button>
+        <button class="nav-item" data-section="website">✎ <span>Website Management</span></button>
+        <button class="nav-item" data-section="settings">⚙ <span>Settings</span></button>
+      </nav>
+      <a href="index.html" class="site-link"><i class="fa-solid fa-globe"></i><span>View Website</span></a>
+      <button id="logoutBtn" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></button>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <button id="mobileMenu" class="mobile-menu">☰</button>
+          <h2 id="pageTitle">Dashboard</h2>
+          <p>Manage your VRS logistics records.</p>
+        </div>
+        <div class="admin-user"><span class="avatar">V</span><span id="adminUserName">vrs@6849</span></div>
+      </header>
+
+      <section id="dashboard" class="section active-section">
+        <div class="stat-grid">
+          <div class="stat-card"><span>Total Orders</span><strong id="statOrders">0</strong><em>All records</em></div>
+          <div class="stat-card"><span>Customers</span><strong id="statCustomers">0</strong><em>Registered customers</em></div>
+          <div class="stat-card"><span>Branches</span><strong id="statBranches">0</strong><em>Active branches</em></div>
+          <div class="stat-card"><span>Delivery Locations</span><strong id="statLocations">0</strong><em>Serviceable locations</em></div>
+        </div>
+        <div class="panel-card">
+          <div class="panel-head"><div><h3>Recent Orders</h3><p>Latest order records</p></div><button class="primary-btn" data-open="orders">Manage Orders</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>From</th><th>To</th><th>Status</th></tr></thead><tbody id="recentOrders"></tbody></table></div>
+        </div>
+      </section>
+
+      <section id="orders" class="section">
+        <div class="section-toolbar"><div><h3>Orders</h3><p>Create, view, update and delete orders.</p></div><button class="primary-btn" id="addOrderBtn">+ Add Order</button></div>
+        <div class="panel-card"><div class="table-tools"><input id="ordersSearch" class="search" placeholder="Search orders..."></div><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Phone</th><th>From</th><th>To</th><th>Package</th><th>Status</th><th>Actions</th></tr></thead><tbody id="ordersTable"></tbody></table></div></div>
+      </section>
+
+      <section id="customers" class="section">
+        <div class="section-toolbar"><div><h3>Customers</h3><p>Manage customer information.</p></div><button class="primary-btn" id="addCustomerBtn">+ Add Customer</button></div>
+        <div class="panel-card"><div class="table-tools"><input id="customersSearch" class="search" placeholder="Search customers..."></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>City</th><th>Actions</th></tr></thead><tbody id="customersTable"></tbody></table></div></div>
+      </section>
+
+      <section id="branches" class="section">
+        <div class="section-toolbar"><div><h3>Branches</h3><p>Manage VRS branch information.</p></div><button class="primary-btn" id="addBranchBtn">+ Add Branch</button></div>
+        <div class="panel-card"><div class="table-tools"><input id="branchesSearch" class="search" placeholder="Search branches..."></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Branch</th><th>City</th><th>Phone</th><th>Address</th><th>Actions</th></tr></thead><tbody id="branchesTable"></tbody></table></div></div>
+      </section>
+
+      <section id="website" class="section">
+        <div class="section-toolbar"><div><h3>Website Management</h3><p>Edit the public VRS website without touching the HTML files.</p></div><button class="primary-btn" id="saveWebsiteBtn">Save Website Settings</button></div>
+        <div class="editor-grid">
+          <div class="editor-card"><h3>Global / Contact</h3><div class="editor-fields">
+            <label>Brand Name<input id="c_brand"></label><label>Footer Text<input id="c_footer"></label><label>Phone<input id="c_phone"></label><label>Email<input id="c_email"></label><label>Address<input id="c_address"></label><label>WhatsApp Number<input id="c_whatsapp"></label>
+          </div></div>
+          <div class="editor-card"><h3>Navigation Labels</h3><div class="editor-fields nav-editor">
+            <label>Home<input id="nav_home"></label><label>About<input id="nav_about"></label><label>Branches<input id="nav_branches"></label><label>Services<input id="nav_services"></label><label>Track Order<input id="nav_track"></label><label>Contact<input id="nav_contact"></label><label>Admin<input id="nav_admin"></label>
+          </div></div>
+          <div class="editor-card"><h3>Home Page</h3><div class="editor-fields">
+            <label>Welcome Text<input id="home_welcome"></label><label>Founder Name<input id="home_name"></label><label>Role / Designation<input id="home_role"></label><label>Hero Image URL<input id="home_image"></label><label>Upload Hero Image<input class="image-upload" data-target="home_image" type="file" accept="image/*"></label><label class="full-field">Introduction<textarea id="home_intro"></textarea></label><label>Know More Button<input id="home_know"></label><label>Know More Link<input id="home_knowlink"></label><label>Contact Button<input id="home_contact"></label><label>Contact Link<input id="home_contactlink"></label><label>CTA Title<input id="home_ctatitle"></label><label>CTA Highlight<input id="home_ctahighlight"></label><label>CTA Description<input id="home_ctadesc"></label><label>CTA Button<input id="home_ctabutton"></label><label>CTA Link<input id="home_ctalink"></label>
+          </div></div>
+          <div class="editor-card"><h3>About Page</h3><div class="editor-fields">
+            <label>Title<input id="about_title"></label><label>Subtitle<input id="about_subtitle"></label><label>Company Name<input id="about_company"></label><label class="full-field">Paragraph 1<textarea id="about_p1"></textarea></label><label class="full-field">Paragraph 2<textarea id="about_p2"></textarea></label>
+            <div class="stats-editor full-field"><b>Statistics</b><div class="stat-edit"><input id="stat_num_0"><input id="stat_label_0"></div><div class="stat-edit"><input id="stat_num_1"><input id="stat_label_1"></div><div class="stat-edit"><input id="stat_num_2"><input id="stat_label_2"></div><div class="stat-edit"><input id="stat_num_3"><input id="stat_label_3"></div></div>
+          </div></div>
+          <div class="editor-card"><h3>Contact Page</h3><div class="editor-fields">
+            <label>Title<input id="contact_title"></label><label>Subtitle<input id="contact_subtitle"></label><label>Office Heading<input id="contact_office"></label><label>Address<input id="contact_address"></label><label>Phone<input id="contact_phone"></label><label>Email<input id="contact_email"></label><label>Office Button Text<input id="contact_button"></label>
+          </div></div>
+          <div class="editor-card"><h3>Delivery Locations Page</h3><div class="editor-fields">
+            <label>Page Title<input id="services_title"></label><label>Subtitle<input id="services_subtitle"></label><label class="full-field">Delivery Note<textarea id="services_note"></textarea></label>
+            <p class="editor-help">The actual locations are managed through the <b>Delivery Locations</b> CRUD section. Changes there appear automatically on the public page.</p>
+          </div></div>
+          <div class="editor-card"><h3>Track Order Page</h3><div class="editor-fields">
+            <label>Title<input id="track_title"></label><label>Subtitle<input id="track_subtitle"></label><label>Assigned Team<input id="track_team"></label><label>Estimated Completion<input id="track_completion"></label>
+            <p class="editor-help">The Track Order page reads order status directly from the Orders CRUD records.</p>
+          </div></div>
+          <div class="editor-card"><h3>Trusted Partners</h3><div class="partner-editor">
+            <div><label>Partner 1 Name<input id="partner_name_0"></label><label>Image URL<input id="partner_image_0"></label><input class="image-upload" data-target="partner_image_0" type="file" accept="image/*"></div>
+            <div><label>Partner 2 Name<input id="partner_name_1"></label><label>Image URL<input id="partner_image_1"></label><input class="image-upload" data-target="partner_image_1" type="file" accept="image/*"></div>
+            <div><label>Partner 3 Name<input id="partner_name_2"></label><label>Image URL<input id="partner_image_2"></label><input class="image-upload" data-target="partner_image_2" type="file" accept="image/*"></div>
+            <div><label>Partner 4 Name<input id="partner_name_3"></label><label>Image URL<input id="partner_image_3"></label><input class="image-upload" data-target="partner_image_3" type="file" accept="image/*"></div>
+            <div><label>Partner 5 Name<input id="partner_name_4"></label><label>Image URL<input id="partner_image_4"></label><input class="image-upload" data-target="partner_image_4" type="file" accept="image/*"></div>
+            <div><label>Partner 6 Name<input id="partner_name_5"></label><label>Image URL<input id="partner_image_5"></label><input class="image-upload" data-target="partner_image_5" type="file" accept="image/*"></div>
+          </div></div>
+          <div class="editor-card"><h3>Theme Colors</h3><div class="editor-fields theme-editor">
+            <label>Gold / Accent<input id="theme_gold" type="color"></label><label>Background<input id="theme_background" type="color"></label><label>Card Background<input id="theme_card" type="color"></label><label>Text<input id="theme_text" type="color"></label><label>Muted Text<input id="theme_muted" type="color"></label>
+            <p class="editor-help">These colors are applied to the public VRS pages when they load.</p>
+          </div></div>
+        </div>
+      </section>
+
+
+      <section id="settings" class="section">
+        <div class="section-toolbar"><div><h3>Admin Settings</h3><p>Change the password used to access this Admin Panel. The current password is required before any change can be saved.</p></div></div>
+        <div class="editor-grid">
+          <div class="editor-card security-card">
+            <h3><i class="fa-solid fa-shield-halved"></i> Change Admin Password</h3>
+            <form id="credentialsForm" class="editor-fields">
+              <label>Current Password<input id="currentAdminPassword" type="password" autocomplete="current-password" required></label>
+              <label>New Password<input id="newAdminPassword" type="password" autocomplete="new-password" minlength="6" required></label>
+              <label>Confirm New Password<input id="confirmAdminPassword" type="password" autocomplete="new-password" minlength="6" required></label>
+              <div class="full-field password-actions"><button type="submit" class="primary-btn">Change Password</button><button type="button" id="showPasswordBtn" class="secondary-btn">Show Passwords</button></div>
+              <p id="credentialsMessage" class="editor-help"></p>
+            </form>
+          </div>
+          <div class="editor-card security-card">
+            <h3><i class="fa-solid fa-circle-info"></i> Security Note</h3>
+            <p class="security-note">This project uses frontend-only authentication. The login details are stored in this browser's localStorage, so this is suitable for a project/demo but not for production security.</p>
+            <div class="security-list"><span>✓ Username cannot be changed here</span><span>✓ Current password required</span><span>✓ New password confirmation required</span><span>✓ Wrong current password blocks the change</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="locations" class="section">
+        <div class="section-toolbar"><div><h3>Delivery Locations</h3><p>Manage serviceable areas and PIN codes.</p></div><button class="primary-btn" id="addLocationBtn">+ Add Location</button></div>
+        <div class="panel-card"><div class="table-tools"><input id="locationsSearch" class="search" placeholder="Search locations..."></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Area</th><th>City</th><th>PIN Code</th><th>Status</th><th>Actions</th></tr></thead><tbody id="locationsTable"></tbody></table></div></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h3 id="modalTitle">Add Record</h3><button id="closeModal" class="close-btn">×</button></div><form id="recordForm"><div id="formFields" class="form-grid"></div><div class="modal-actions"><button type="button" id="cancelModal" class="secondary-btn">Cancel</button><button type="submit" class="primary-btn">Save Record</button></div></form></div></div>
+  <div id="toast" class="toast"></div>
+  <script src="admin.js"></script>
+</body>
+</html>
